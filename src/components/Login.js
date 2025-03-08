@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Box, Typography, Link } from '@mui/material';
 
@@ -72,73 +72,191 @@ const Login = () => {
     }
   };
 
+  // Fix for autofill background color
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const inputs = document.querySelectorAll('input:-webkit-autofill');
+      inputs.forEach(input => {
+        input.style.backgroundColor = 'transparent';
+        input.style.color = '#fff';
+      });
+    }, 100); // Delay to ensure autofill is applied
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Box
-      component="form"
-      onSubmit={handleSubmit}
       sx={{
-        maxWidth: 400,
-        mx: 'auto',
-        mt: 4,
-        p: 3,
-        boxShadow: 3,
-        borderRadius: 2,
-        bgcolor: 'background.paper'
+        minHeight: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      <Typography variant="h4" component="h1" gutterBottom>
-        Login
-      </Typography>
-
-      <TextField
-        fullWidth
-        margin="normal"
-        label="Username"
-        name="username"
-        value={formData.username}
-        onChange={handleChange}
-        error={!!errors.username}
-        helperText={errors.username}
-      />
-
-      <TextField
-        fullWidth
-        margin="normal"
-        label="Password"
-        name="password"
-        type="password"
-        value={formData.password}
-        onChange={handleChange}
-        error={!!errors.password}
-        helperText={errors.password}
-      />
-
-      {errors.submit && (
-        <Typography color="error" sx={{ mt: 2 }}>
-          {errors.submit}
-        </Typography>
-      )}
-
-      <Button
-        fullWidth
-        type="submit"
-        variant="contained"
-        sx={{ mt: 3, mb: 2 }}
-        disabled={!formData.username || !formData.password}
+      {/* Video Background */}
+      <Box
+        component="video"
+        autoPlay
+        muted
+        loop
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: -1,
+        }}
       >
-        Login
-      </Button>
-      <Box sx={{ textAlign: 'center' }}>
-        <Typography variant="body2">
-          Don't have an account?{' '}
-          <Link
-            component="button"
-            variant="body2"
-            onClick={() => navigate('/signup')}
-          >
-            Sign up
-          </Link>
+        <source src="/smoke.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </Box>
+
+      {/* Login Form */}
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          maxWidth: 400,
+          width: '100%',
+          mx: 'auto',
+          p: 4,
+          borderRadius: 2,
+          background: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+          textAlign: 'center',
+        }}
+      >
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          sx={{
+            fontWeight: 'bold',
+            color: '#fff',
+            mb: 3,
+            textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          Login
         </Typography>
+
+        <TextField
+          fullWidth
+          margin="normal"
+          label="Username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          error={!!errors.username}
+          helperText={errors.username}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '8px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              color: '#fff',
+              '& fieldset': {
+                border: 'none',
+              },
+              '&:hover fieldset': {
+                border: '1px solid rgba(255, 255, 255, 0.4)',
+              },
+            },
+            '& .MuiInputLabel-root': {
+              color: 'rgba(255, 255, 255, 0.7)',
+            },
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: '#2196F3',
+            },
+          }}
+        />
+
+        <TextField
+          fullWidth
+          margin="normal"
+          label="Password"
+          name="password"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+          error={!!errors.password}
+          helperText={errors.password}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '8px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              color: '#fff',
+              '& fieldset': {
+                border: 'none',
+              },
+              '&:hover fieldset': {
+                border: '1px solid rgba(255, 255, 255, 0.4)',
+              },
+            },
+            '& .MuiInputLabel-root': {
+              color: 'rgba(255, 255, 255, 0.7)',
+            },
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: '#2196F3',
+            },
+          }}
+        />
+
+        {errors.submit && (
+          <Typography color="error" sx={{ mt: 2, color: '#ff4444', textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+            {errors.submit}
+          </Typography>
+        )}
+
+        <Button
+          fullWidth
+          type="submit"
+          variant="contained"
+          sx={{
+            mt: 3,
+            mb: 2,
+            py: 1.5,
+            borderRadius: '8px',
+            background: 'linear-gradient(45deg, #2196F3, #21CBF3)',
+            color: '#fff',
+            fontWeight: 'bold',
+            '&:hover': {
+              background: 'linear-gradient(45deg, #1976D2, #1E88E5)',
+            },
+          }}
+          disabled={!formData.username || !formData.password}
+        >
+          Login
+        </Button>
+
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+            Don't have an account?{' '}
+            <Link
+              component="button"
+              variant="body2"
+              onClick={() => navigate('/signup')}
+              sx={{
+                color: '#2196F3',
+                fontWeight: 'bold',
+                textDecoration: 'none',
+                '&:hover': {
+                  textDecoration: 'underline',
+                },
+              }}
+            >
+              Sign up
+            </Link>
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );
