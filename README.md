@@ -1,70 +1,111 @@
-# Getting Started with Create React App
+# SecureConnect
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+SecureConnect is a web application that implements secure user authentication using React for the frontend and Node.js with Express for the backend.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+Before running the project, make sure you have the following installed:
 
-### `npm start`
+- Node.js and npm
+- XAMPP (for MySQL database)
+- Web browser
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Clone the repository:
+```bash
+git clone [repository-url]
+cd secureconnect
+```
 
-### `npm test`
+2. Install dependencies:
+```bash
+npm install
+npm install express bcryptjs jsonwebtoken cors mysql2
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Database Setup
 
-### `npm run build`
+1. Start XAMPP and ensure MySQL service is running
+2. Open your web browser and navigate to http://localhost/phpmyadmin
+3. Log in with:
+   - Username: root
+   - Password: (leave empty)
+4. To set up the database:
+   - Click on 'Import' in the top menu
+   - Choose the file from `src/config/schema.sql`
+   - Click 'Go' to execute the SQL commands
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This will create:
+- The 'secureconnect' database
+- 'users' table for user authentication
+- 'sessions' table for managing user sessions
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Database Configuration
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The database connection is configured in `src/config/db.js` with the following settings:
+- Host: localhost
+- Port: 3306
+- User: root
+- Password: (empty)
+- Database: secureconnect
 
-### `npm run eject`
+## Running the Application
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Start the backend server:
+```bash
+node server.js
+```
+The server will run on http://localhost:3001
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. In a new terminal, start the React frontend:
+```bash
+npm start
+```
+The application will open in your browser at http://localhost:3000
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Features
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Core Features
+- User registration with secure password hashing
+- User login with JWT authentication
+- Session management
+- Protected routes
 
-## Learn More
+### Security Features
+- Password hashing using bcrypt
+- JWT-based authentication
+- Session management for secure user sessions
+- Protected API endpoints
+- SQL injection prevention through prepared statements
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Project Structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+secureconnect/
+├── src/
+│   ├── components/
+│   │   ├── Home.js
+│   │   ├── Login.js
+│   │   └── Signup.js
+│   ├── config/
+│   │   ├── db.js
+│   │   └── schema.sql
+│   └── App.js
+└── server.js
+```
 
-### Code Splitting
+## Assumptions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. The application assumes XAMPP is used for the MySQL database
+2. Default MySQL credentials (root with no password) are used
+3. The application runs on default ports (3000 for React, 3001 for backend)
+4. Users have basic knowledge of React and Node.js
 
-### Analyzing the Bundle Size
+## Development Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- The project uses React 18 for the frontend
+- Express.js is used for the backend API
+- MySQL is used as the database through mysql2 package
+- JWT is used for authentication tokens
+- bcrypt is used for password hashing
