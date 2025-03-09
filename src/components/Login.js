@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Box, Typography, Link } from '@mui/material';
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
@@ -62,6 +62,7 @@ const Login = () => {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', formData.username);
+        onLoginSuccess(); // Call the login success callback
         navigate('/');
       } else {
         setErrors(prev => ({ ...prev, submit: data.message }));
@@ -80,7 +81,7 @@ const Login = () => {
         input.style.backgroundColor = 'transparent';
         input.style.color = '#fff';
       });
-    }, 100); // Delay to ensure autofill is applied
+    }, 100);
 
     return () => clearTimeout(timer);
   }, []);

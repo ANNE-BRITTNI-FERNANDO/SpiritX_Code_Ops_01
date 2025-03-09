@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -6,8 +6,17 @@ import Home from './components/Home';
 import './App.css';
 
 function App() {
-  const isAuthenticated = () => {
-    return localStorage.getItem('token') !== null;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
   };
 
   return (
@@ -17,14 +26,14 @@ function App() {
           <Route
             path="/"
             element={
-              isAuthenticated() ? (
+              isLoggedIn ? (
                 <Home />
               ) : (
                 <Navigate to="/login" />
               )
             }
           />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login onLoginSuccess={handleLogin} />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
       </div>
